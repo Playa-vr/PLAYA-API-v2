@@ -14,7 +14,7 @@ This repository contains:
 1. Go to ``Web`` page
 1. Click ``Add Website`` button
 1. Enter ``localhost:4430`` and click ``Connect``
-	- If you does not install SSL previously: use ``http://localhost:8080
+	- If you does not install SSL previously: use ``http://localhost:8080``
 1. PlayaVR should successfuly connect to website and show one sample video.
 
 # Note

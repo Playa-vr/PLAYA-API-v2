@@ -573,6 +573,7 @@ Event when user downloads video.
 |timeline_atlas|[TimelineAtlas](#timelineatlas)|Optional|
 |timeline_markers|[Timeline](#timeline-timelinemarker)|Optional|
 |links|[VideoLink](#videolink)[]|Include all link objects even if they are unavailable to the user because he is not authorized or not premium. For such cases set [VideoLink](#videolink).url to null.|
+|alpha_mask|[Url](#url-string)|Optional<br>Url to external alpha mask video. External mask should be enabled in [TransparencyInfo](#transparencyinfo).|
 
 >Example
 >
@@ -713,16 +714,29 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |Name|Type|Description|
 |-|-|-|
 |m|long|0 - None<br>1 - Mask (alpha channel)<br>2 - Chroma (green screen)|
+|e|bool|Is mask stored externaly<br>You can test external alpha mask localy by placing mask video file with '_mask' suffix in the name keeping same extension.<br>Example:<br>- video.mp4<br>- video_mask.mp4_|
+|a|[AlphaChannel](#alphachannel)[]|Array of up to 3 alpha channels<br>Order of channels: 1) Red 2) Green 3) Blue<br><b>Red channel is used when no channel is set as available.</b>|
 |i|bool|Is chroma key inverted:<br>false - Hide pixels<br>true - Show pixels|
 |c|[ChormaKeyLayer](#chromakeylayer)[]|Array of up to 4 chroma key layers|
 
->AlphaMask example
+>Embeded AlphaMask example
 >
 >     { "m": 1 }
 
->ChromaKeyExample
+>External AlphaMask with 2 channels example
+>
+>     {"m":1,"e":true,"a":[{"a":true,"e":true,"n":"Bunny"},{"a":true,"e":false,"n":"Grass"}]}
+
+>ChromaKey example
 >
 >     {"m":2,"i":false,"c":[{"e":true,"r":0.2,"f":0.5,"c":{"r":18,"g":218,"b":0},"h":0.1,"s":-0.25,"v":-0.8}]}
+
+### AlphaChannel
+|Name|Type|Description|
+|-|-|-|
+|a|bool|Is channel available (can be enabled)|
+|e|bool|Is channel enabled by default|
+|n|string|Channel name (what is visible when this channel enabled)|
 
 ### ChromaKeyLayer
 |Name|Type|Description|
