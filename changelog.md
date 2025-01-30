@@ -16,7 +16,7 @@ You need to enable EditMode to see and modify these options.
 
 - Added [AlphaChannel](docs.md#alphachannel) object
 - Extended [TransparencyInfo](docs.md#transparencyinfo) object
-- Extended [VideoView.Details](docs.md#videoview.details) object
+- Extended [VideoView.Details](docs.md#videoviewdetails) object
 
 
 Support for new features is expected to be added in Play'a 2.3.12
