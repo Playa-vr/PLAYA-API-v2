@@ -94,6 +94,11 @@ Requests related to current user.
 - Route: GET /user/profile
 - Response: [Rsp](#rsptype)&lt;[UserProfile](#userprofile)&gt;
 
+### GetScriptsInfo
+- Authentication: Required
+- Route: GET /user/scripts-info
+- Response: [Rsp](#rsptype)&lt;[ScriptsInfo](#scriptsinfo)&gt;
+
 ## Analytics
 Requests to track user activity.
 
@@ -228,6 +233,9 @@ Absolute links to images or videos.
 >Mp4 sample stream
 >
 >      "https://www.sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4"
+
+### JWT : string
+Json Web Token
 
 ### SemVersion : string
 Version string according to [Semantic Versioning 2.0.0](https://semver.org/)
@@ -429,6 +437,17 @@ Event when user downloads video.
 >         "role": "premium"
 >     }
 
+### ScriptsInfo
+|Name|Type|Description|
+|-|-|-|
+|token|[JWT](#jwt-string)|Required to use scripts.|
+
+>Example
+>
+>     {
+>         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+>     }
+
 ### Configuration
 |Name|Type|Description|
 |-|-|-|
@@ -481,7 +500,7 @@ Event when user downloads video.
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
 |preview_image|[Url](#url-string)|Preview image.|
 |release_date|[Timestamp](#timestamp-long)||
-|details|[VideoListView.Details](#videolistview.details)[]|Trailer and Full video details. Both are optional.|
+|details|[VideoListView.Details](#videolistviewdetails)[]|Trailer and Full video details. Both are optional.|
 
 >Example
 >
@@ -513,12 +532,12 @@ Event when user downloads video.
 |description|string||
 |preview_image|[Url](#url-string)|Preview image.|
 |release_date|[Timestamp](#timestamp-long)||
-|studio|[VideoView.Studio](#videoview.studio)[]||
-|categories|[VideoView.Category](#videoview.category)[]||
-|actors|[VideoView.Actor](#videoview.actor)[]||
+|studio|[VideoView.Studio](#videoviewstudio)[]||
+|categories|[VideoView.Category](#videoviewcategory)[]||
+|actors|[VideoView.Actor](#videoviewactor)[]||
 |views|long||
 |transparency|[TransparencyInfo](#transparencyinfo)||
-|details|[VideoView.Details](#videoview.details)[]|Trailer and Full video details. Both are optional.|
+|details|[VideoView.Details](#videoviewdetails)[]|Trailer and Full video details. Both are optional.|
 
 >Example
 >
@@ -574,6 +593,7 @@ Event when user downloads video.
 |timeline_markers|[Timeline](#timeline-timelinemarker)|Optional|
 |links|[VideoLink](#videolink)[]|Include all link objects even if they are unavailable to the user because he is not authorized or not premium. For such cases set [VideoLink](#videolink).url to null.|
 |alpha_mask|[Url](#url-string)|Optional<br>Url to external alpha mask video. External mask should be enabled in [TransparencyInfo](#transparencyinfo).|
+|script_id|string|Optional<br>Id of the script to use.|
 
 >Example
 >
@@ -781,8 +801,8 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |id|string|
 |title|string|Displayed to user.|
 |preview|[Url](#url-string)|[Optional] Preview image.|
-|studios|[ActorView.Studio](#actorview.studio)[]|[Optional]|
-|properties|[ActorView.Property](#actorview.property)[]|[Optional]|
+|studios|[ActorView.Studio](#actorviewstudio)[]|[Optional]|
+|properties|[ActorView.Property](#actorviewproperty)[]|[Optional]|
 |aliases|string[]|[Optional]
 |views|long||
 |banner|[Url](#url-string)|[Optional] Big horizontal image.|

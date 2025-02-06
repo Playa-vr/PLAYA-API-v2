@@ -1,3 +1,9 @@
+## 1.7.0 Scripts
+- Added [GetScriptsInfo](docs.md#getscriptsinfo) request
+- Added [ScriptsInfo](docs.md#scriptsinfo) object
+- Extended [VideoView.Details](docs.md#videoviewdetails) object
+- Fixed some links in docs
+
 ## 1.6.0 External AlphaMask
 This update adds support for playing passthrough videos with alpha mask from external video file.
 Playa app will stream both (color and mask) videos at the same time.
