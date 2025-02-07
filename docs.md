@@ -44,7 +44,7 @@ Authomatic API discovery, compatibility and behaviour adjusments.
 
 ### GetVersion
 - Route: GET /version
-- Response: [Rsp](#rsptype)&lt;[SemVersion](#semversion)&gt;
+- Response: [Rsp](#rsptype)&lt;[SemVersion](#semversion--string)&gt;
 
 Lates API version implemented on the server.
 
@@ -211,14 +211,14 @@ Requets for retriveing videos and other content.
 | Type   | Description | Default value | Nullable | Example in JSON |
 | ----   | ----------- | ------------- | -------- | --------------- |
 | bool   | Logical bit | false | No | false<br>true |
-| long   | Signed integer<br>64 bit (8 bytes)| 0 | No | 42<br>-1 |
-| double | Signed floating point number<br>64 bit (8 bytes) | 0.0 | No | 777<br>69.420<br>1.7e+380 |
-| Type?  | Type modifier.<br>Makes any type nullable | null | Yes | long is not nullable. Default values is 0<br>long? is nullable. Default value is null|
+| long   | Signed integer<br>64 bit (8 bytes)| 0 | No | 42<br>-1 |
+| double | Signed floating point number<br>64 bit (8 bytes) | 0.0 | No | 777<br>69.420<br>1.7e+380 |
+| Type?  | Type modifier.<br>Makes any type nullable | null | Yes | long is not nullable. Default values is 0<br>long? is nullable. Default value is null|
 | string | Text | null | Yes | ""<br>"abc"|
-| Object | | null | Yes | \{ \} |
-| Type[] | Type modifier.<br>Makes any type an array | null | Yes | [ ]<br> [1, 2, 3]<br>["aaa", "bbb", "ccc"]|
-| Bar : Foo| Aliasing or Inheritance<br><br>If Foo is primitive type, then Bar is same type as Foo with specific meaning and/or constraints.<br><br>Otherwise Type Bar inherits all fields from type Foo.|null|yes|SCHEMA Timestamp : long // UNIX timestamp<br>JSON 1675161596<br><br>SCHEMA Url : string // must contain absolute http or https url<br>JSON "https://example.org"<br><br>SCHEMA ShortVideo \{ "id": &lt;long&gt;, "title": &lt;string&gt; \}<br>SCHEMA FullVideo : ShortVideo \{ "url": &lt;Url&gt; \}<br>JSON of FullVideo<br>\{<br>  "id": 42,<br>  "title": "example",<br>  "url": "https://example.org"<br>\}|
-| Foo<Bar>| Generic Type (Template)<br><br>Type Foo with parameter Bar.<br>Foo is Object and contains fields of type Bar direcly or through other generics with parameter Bar<br><br> Generic objects can't contain fields of itself. | null| Yes|SCHEMA Foo \{ "err": &lt;long&gt; \}<br>JSON of Foo \{ "err": 2 \}<br><br>SCHEMA Foo&lt;Type&gt; \{ "err": &lt;long&gt;, "data": &lt;Type&gt; \}<br>JSON of Foo&lt;string&gt; { "err": 2, "data": "abc" \}<br>JSON of Foo&lt;long[]&gt; \{ "err": 2, "data": [1,2,3] \}|
+| Object | | null | Yes | \{ \} |
+| Type[] | Type modifier.<br>Makes any type an array | null | Yes | [ ]<br> [1, 2, 3]<br>["aaa", "bbb", "ccc"]|
+| Bar : Foo| Aliasing or Inheritance<br><br>If Foo is primitive type, then Bar is same type as Foo with specific meaning and/or constraints.<br><br>Otherwise Type Bar inherits all fields from type Foo.|null|yes|SCHEMA Timestamp : long // UNIX timestamp<br>JSON 1675161596<br><br>SCHEMA Url : string // must contain absolute http or https url<br>JSON "https://example.org"<br><br>SCHEMA ShortVideo \{ "id": &lt;long&gt;, "title": &lt;string&gt; \}<br>SCHEMA FullVideo : ShortVideo \{ "url": &lt;Url&gt; \}<br>JSON of FullVideo<br>\{<br>  "id": 42,<br>  "title": "example",<br>  "url": "https://example.org"<br>\}|
+| Foo<Bar>| Generic Type (Template)<br><br>Type Foo with parameter Bar.<br>Foo is Object and contains fields of type Bar direcly or through other generics with parameter Bar<br><br> Generic objects can't contain fields of itself. | null| Yes|SCHEMA Foo \{ "err": &lt;long&gt; \}<br>JSON of Foo \{ "err": 2 \}<br><br>SCHEMA Foo&lt;Type&gt; \{ "err": &lt;long&gt;, "data": &lt;Type&gt; \}<br>JSON of Foo&lt;string&gt; { "err": 2, "data": "abc" \}<br>JSON of Foo&lt;long[]&gt; \{ "err": 2, "data": [1,2,3] \}|
 
 ### Timestamp : long
 [Epoch Unix Timestamp](https://www.unixtimestamp.com/) SECONDS SINCE JAN 01 1970 (UTC)
@@ -440,7 +440,7 @@ Event when user downloads video.
 ### ScriptsInfo
 |Name|Type|Description|
 |-|-|-|
-|token|[JWT](#jwt-string)|Required to use scripts.|
+|token|[JWT](#jwt--string)|Required to use scripts.|
 
 >Example
 >
@@ -452,7 +452,7 @@ Event when user downloads video.
 |Name|Type|Description|
 |-|-|-|
 |site_name|string||
-|site_logo|[Url](#url-string)|Recommended: 256x256 pixels with transparent background|
+|site_logo|[Url](#url--string)|Recommended: 256x256 pixels with transparent background|
 |auth|bool?|Is [authentication](#authentication) and [user](#user) API supported. Default: true|
 |actors|bool|Is [actors](#getactors) supported|
 |categories|bool|Is [categories](#getcategories) supported|
@@ -489,7 +489,7 @@ Event when user downloads video.
 >         "page_size": 20,
 >         "page_total": 5,
 >         "item_total": 90,
->         "content": [ {item 40}, {item 41}, … , {item 60} ]
+>         "content": [ {item 40}, {item 41},   , {item 60} ]
 >     }
 
 ### VideoListView
@@ -498,8 +498,8 @@ Event when user downloads video.
 |id|string||
 |title|string|Displayed to user.|
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
-|preview_image|[Url](#url-string)|Preview image.|
-|release_date|[Timestamp](#timestamp-long)||
+|preview_image|[Url](#url--string)|Preview image.|
+|release_date|[Timestamp](#timestamp--long)||
 |details|[VideoListView.Details](#videolistviewdetails)[]|Trailer and Full video details. Both are optional.|
 
 >Example
@@ -530,8 +530,8 @@ Event when user downloads video.
 |title|string|Displayed to user.|
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
 |description|string||
-|preview_image|[Url](#url-string)|Preview image.|
-|release_date|[Timestamp](#timestamp-long)||
+|preview_image|[Url](#url--string)|Preview image.|
+|release_date|[Timestamp](#timestamp--long)||
 |studio|[VideoView.Studio](#videoviewstudio)[]||
 |categories|[VideoView.Category](#videoviewcategory)[]||
 |actors|[VideoView.Actor](#videoviewactor)[]||
@@ -592,7 +592,7 @@ Event when user downloads video.
 |timeline_atlas|[TimelineAtlas](#timelineatlas)|Optional|
 |timeline_markers|[Timeline](#timeline-timelinemarker)|Optional|
 |links|[VideoLink](#videolink)[]|Include all link objects even if they are unavailable to the user because he is not authorized or not premium. For such cases set [VideoLink](#videolink).url to null.|
-|alpha_mask|[Url](#url-string)|Optional<br>Url to external alpha mask video. External mask should be enabled in [TransparencyInfo](#transparencyinfo).|
+|alpha_mask|[Url](#url--string)|Optional<br>Url to external alpha mask video. External mask should be enabled in [TransparencyInfo](#transparencyinfo).|
 |script_id|string|Optional<br>Id of the script to use.|
 
 >Example
@@ -606,15 +606,15 @@ Event when user downloads video.
 ### TimelineAtlas
 |Name|Type|Description|
 |-|-|-|
-|version|long|Supported versions:<br>**1**: Single image with grid of frames.<br>Every frame has the same size and time interval.<br>Row and column count may vary.<br>Max allowed image size is 4096x4096.<br>Example of 8 frames packed in 4 by 2 grid.<br>0 1 2 3<br>4 5 6 7|
-|url|[Url](#url-string)|Url to atlas image|
+|version|long|Supported versions:<br>**1**: Single image with grid of frames.<br>Every frame has the same size and time interval.<br>Row and column count may vary.<br>Max allowed image size is 4096x4096.<br>Example of 8 frames packed in 4 by 2 grid.<br>0 1 2 3<br>4 5 6 7|
+|url|[Url](#url--string)|Url to atlas image|
 |frame_width|long?|[Optional] Pixel width of each frame.<br>If missing - calculated from columns and image width.|
 |frame_height|long?|[Optional] Pixel height of each frame.<br>If missing - calculated from rows and image height.|
 |columns|long?|[Optional] Columns count of grid.<br>If missing - calculated from frame_width and image width.|
 |rows|long?|[Optional] Rows count of grid.<br>If missing - calculated from frame_height and image height.|
 |frames|long?|[Optional] Frame count. Used then last frames in the grid are unused.<br>If missing - every frame in the grid is used.|
 |interval_ms|long?|[Optional] Interval in milliseconds between frames.<br>If missing - every frame is equally distributed along video duration.|
-|aspect_ratio|long?|[Optional] Aspect ratio used to display each frame (width / height).<br>If missing - calculated from frame_width and frame_height.|
+|aspect_ratio|long?|[Optional] Aspect ratio used to display each frame (width / height).<br>If missing - calculated from frame_width and frame_height.|
 
 >Example
 >
@@ -687,8 +687,8 @@ When possible provide the same link for stream and download.
 |-|-|-|
 |is_stream|bool|Note: Hosting (CDN) must support HTTP range requests (partial requests).|
 |is_dowload|bool|Note: Hosting (CDN) must respond with a nonzero Content-Length header.|
-|url|[Url](#url-string)|If user is not allowed to watch or download - use null.|
-|unavailable_reason|string|Displayed to users. English only. Truncated to 15 symbols.<br>If url is present - use null.<br>If url is missing - use reason.<br>Example values:<br>"login": user need to be logged in (for unauthorized users)<br>"premium": user does not have premium subscribtion (for unauthorized or free users)|
+|url|[Url](#url--string)|If user is not allowed to watch or download - use null.|
+|unavailable_reason|string|Displayed to users. English only. Truncated to 15 symbols.<br>If url is present - use null.<br>If url is missing - use reason.<br>Example values:<br>"login": user need to be logged in (for unauthorized users)<br>"premium": user does not have premium subscribtion (for unauthorized or free users)|
 |projection|string|"FLT" - shown on flat display<br>"180" - front half sphere<br>"360" - full sphere<br>"FSH" - fisheye|
 |stereo|string|"MN" - mono.<br>"LR" - stereo. Side by side. Left eye on left half.<br>"RL" - stereo. Side by side. Left eye on right half.<br>"TB" - stereo. Over under. Left eye on top half.<br>"BT" - stereo. Over under. Left eye on bottom half.|
 |quality_name|string|Displayed to users. English only. Truncated to 15 symbols.<br>Example values:<br>"2K"<br>"1080p"<br>"FullHD"|
@@ -789,7 +789,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |-|-|-|
 |id|string|
 |title|string|Displayed to user.|
-|preview|[Url](#url-string)|[Optional] Preview image.|
+|preview|[Url](#url--string)|[Optional] Preview image.|
 
 >Example
 >
@@ -800,12 +800,12 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |-|-|-|
 |id|string|
 |title|string|Displayed to user.|
-|preview|[Url](#url-string)|[Optional] Preview image.|
+|preview|[Url](#url--string)|[Optional] Preview image.|
 |studios|[ActorView.Studio](#actorviewstudio)[]|[Optional]|
 |properties|[ActorView.Property](#actorviewproperty)[]|[Optional]|
 |aliases|string[]|[Optional]
 |views|long||
-|banner|[Url](#url-string)|[Optional] Big horizontal image.|
+|banner|[Url](#url--string)|[Optional] Big horizontal image.|
 
 >Example
 >
@@ -845,7 +845,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |-|-|-|
 |id|string|
 |title|string|Displayed to user.|
-|preview|[Url](#url-string)|[Optional] Preview image.|
+|preview|[Url](#url--string)|[Optional] Preview image.|
 
 >Example
 >
@@ -856,7 +856,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |-|-|-|
 |id|string|
 |title|string|Displayed to user.|
-|preview|[Url](#url-string)|[Optional] Preview image.|
+|preview|[Url](#url--string)|[Optional] Preview image.|
 |description|string||
 |views|long||
 
@@ -874,7 +874,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |-|-|-|
 |id|string|
 |title|string|Displayed to user.|
-|preview|[Url](#url-string)|[Optional] Preview image.|
+|preview|[Url](#url--string)|[Optional] Preview image.|
 
 >Example
 >
