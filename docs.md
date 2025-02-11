@@ -733,8 +733,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 
 |Name|Type|Description|
 |-|-|-|
-|m|long|0 - None<br>1 - Mask (alpha channel)<br>2 - Chroma (green screen)|
-|e|bool|Is mask stored externaly<br>You can test external alpha mask localy by placing mask video file with '_mask' suffix in the name keeping same extension.<br>Example:<br>- video.mp4<br>- video_mask.mp4_|
+|m|long|0 - None<br>1 - Embedded Alpha Mask<br>2 - Chroma Key<br>3 - External Alpha Mask|
 |a|[AlphaChannel](#alphachannel)[]|Array of up to 3 alpha channels<br>Order of channels: 1) Red 2) Green 3) Blue<br><b>Red channel is used when no channel is set as available.</b>|
 |i|bool|Is chroma key inverted:<br>false - Hide pixels<br>true - Show pixels|
 |c|[ChormaKeyLayer](#chromakeylayer)[]|Array of up to 4 chroma key layers|
@@ -745,7 +744,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 
 >External AlphaMask with 2 channels example
 >
->     {"m":1,"e":true,"a":[{"a":true,"e":true,"n":"Bunny"},{"a":true,"e":false,"n":"Grass"}]}
+>     {"m":3,"a":[{"a":true,"e":true,"n":"Bunny"},{"a":true,"e":false,"n":"Grass"}]}
 
 >ChromaKey example
 >

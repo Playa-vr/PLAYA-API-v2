@@ -1,3 +1,10 @@
+## 1.7.2 Alpha mask mode
+This is breaking change. But considering lack of Play'a app releases: there is nothnig to break.
+
+Support for 1.6.0+ features is expected to be added in Play'a 2.3.13
+
+- Altered [TransparencyInfo](docs.md#transparencyinfo) object. External alpha mask will use newely added mode 3 instead of mode 1 reserved for embedded alpha mask.
+
 ## 1.7.0 Scripts
 - Added [GetScriptsInfo](docs.md#getscriptsinfo) request
 - Added [ScriptsInfo](docs.md#scriptsinfo) object
@@ -5,6 +12,9 @@
 - Fixed some links in docs
 
 ## 1.6.0 External AlphaMask
+> [!IMPORTANT]
+> TransparencyInfo defenition altered in 1.7.2 update. Play'a 2.3.12 does not received this update. All changes postponed to the next relase.
+
 This update adds support for playing passthrough videos with alpha mask from external video file.
 Playa app will stream both (color and mask) videos at the same time.
 
