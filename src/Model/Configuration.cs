@@ -25,6 +25,12 @@ namespace PlayaApiV2.Model
         [JsonProperty("analytics")]
         public bool Analytics { get; set; }
 
+        [JsonProperty("scripts")]
+        public bool Scripts { get; set; }
+
+        [JsonProperty("masks")]
+        public bool Masks { get; set; }
+
         [JsonProperty("theme")]
         public long? Theme { get; set; }
 
@@ -39,5 +45,11 @@ namespace PlayaApiV2.Model
 
         [JsonProperty("nsfw")]
         private bool? _nswf { get; set; }
+
+        [JsonIgnore]
+        public bool Deals { get => _deals ?? true; set => _deals = value; }
+
+        [JsonProperty("deals")]
+        private bool? _deals { get; set; }
     }
 }

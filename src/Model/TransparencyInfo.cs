@@ -29,6 +29,7 @@ namespace PlayaApiV2.Model
         None = 0,
         Mask = 1,
         Chroma = 2,
+        ExternalMask = 3,
     }
 
     public class ChromaMask

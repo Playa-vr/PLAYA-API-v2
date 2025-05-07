@@ -46,6 +46,8 @@ namespace PlayaApiV2.Controllers
                 CategoriesGroups = false,
                 Studios = false,
                 Analytics = false,
+                Scripts = false,
+                Masks = false,
                 Auth = false,
                 NSFW = false,
                 Deals = false,

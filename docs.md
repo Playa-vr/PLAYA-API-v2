@@ -458,6 +458,8 @@ Event when user downloads video.
 |categories|bool|Is [categories](#getcategories) supported|
 |categories_groups|bool|Is [categories groups](#getcategoriesgroups) supported|
 |studios|bool|Is [studios](#getstudios) supported|
+|scripts|bool|Is [scripts](#getscriptsinfo) supported|
+|masks|bool|Is [transparency](#transparencyinfo) supported|
 |analytics|bool|Is [analytics](#analytics) supported|
 |theme|long?|Visual theme used for the site.|
 |nsfw|bool?|Show a warning about NSFW content when users first access a website. Default: true|
@@ -470,6 +472,7 @@ Event when user downloads video.
 >         "actors": true,
 >         "categories": true,
 >         "studios": true,
+>         "scripts": true,
 >         "nsfw": false
 >     }
 
@@ -518,10 +521,12 @@ Event when user downloads video.
 |-|-|-|
 |type|string|"trailer"<br>"full"|
 |duration_seconds|long|Duration in seconds|
+|transparency_mode|long|The type of [TransparencyInfo](#transparencyinfo) in video|
+|has_scripts|bool|Has script for video|
 
 >Example
 >
->     { "type": "trailer", "duration_seconds": 5 }
+>     { "type": "trailer", "duration_seconds": 5, "has_scripts": false }
 
 ### VideoView
 |Name|Type|Description|

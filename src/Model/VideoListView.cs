@@ -31,6 +31,12 @@ namespace PlayaApiV2.Model
 
             [JsonProperty("duration_seconds")]
             public long? DurationSeconds { get; set; }
+
+            [JsonProperty("transparency_mode")]
+            public TransparencyMode Mode { get; set; }
+
+            [JsonProperty("has_scripts")]
+            public bool HasScripts { get; set; }
         }
     }
 }

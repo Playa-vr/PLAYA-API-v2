@@ -1,3 +1,12 @@
+## 1.7.3 New Additional Information for list view
+This is not breaking change.
+
+This update includes adding additional information about site [Configuration](docs.md#configuration) and [VideoListView](docs.md#videolistview)
+Including script support in video and the type of [TransparencyMode](docs.md#transparencymode).
+
+- Extended [Configuration](docs.md#configuration) object
+- Extended [VideoListView.Details](docs.md#videolistviewdetails) object
+
 ## 1.7.2 Alpha mask mode
 This is breaking change. But considering lack of Play'a app releases: there is nothnig to break.
 

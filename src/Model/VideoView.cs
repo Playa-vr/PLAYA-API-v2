@@ -77,6 +77,9 @@ namespace PlayaApiV2.Model
             [JsonProperty("duration_seconds")]
             public long? DurationSeconds { get; set; }
 
+            [JsonProperty("script_id")]
+            public string ScriptId { get; set; }
+
             [JsonProperty("timeline_atlas")]
             public TimelineAtlas TimelineAtlas { get; set; }
 
