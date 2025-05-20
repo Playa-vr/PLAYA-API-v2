@@ -691,7 +691,7 @@ When possible provide the same link for stream and download.
 |Name|Type|Description|
 |-|-|-|
 |is_stream|bool|Note: Hosting (CDN) must support HTTP range requests (partial requests).|
-|is_dowload|bool|Note: Hosting (CDN) must respond with a nonzero Content-Length header.|
+|is_download|bool|Note: Hosting (CDN) must respond with a nonzero Content-Length header.|
 |url|[Url](#url--string)|If user is not allowed to watch or download - use null.|
 |unavailable_reason|string|Displayed to users. English only. Truncated to 15 symbols.<br>If url is present - use null.<br>If url is missing - use reason.<br>Example values:<br>"login": user need to be logged in (for unauthorized users)<br>"premium": user does not have premium subscribtion (for unauthorized or free users)|
 |projection|string|"FLT" - shown on flat display<br>"180" - front half sphere<br>"360" - full sphere<br>"FSH" - fisheye|
