@@ -8,7 +8,6 @@ using System.Runtime.Serialization;
 
 namespace PlayaApiV2.Model
 {
-
     [Serializable]
     [JsonConverter(typeof(TimelineConverter))]
     public class Timeline

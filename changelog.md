@@ -1,3 +1,13 @@
+## 1.8.0 New information about the VideoScript
+This is breaking change.
+
+This update includes changing information about VideoScript [VideoScript](docs.md#videoscript) at [VideoView.Details](docs.md#videoviewdetails).
+
+- Removed ScriptId field from [VideoView.Details](docs.md#videoviewdetails) object
+- Added [ScriptInfo](docs.md#scriptinfo) field to [VideoView.Details](docs.md#videoviewdetails) object
+
+This feature will be added in Play'a 3.0.5
+
 ## 1.7.3 New Additional Information for list view
 This is not breaking change.
 

@@ -598,7 +598,7 @@ Event when user downloads video.
 |timeline_markers|[Timeline](#timeline-timelinemarker)|Optional|
 |links|[VideoLink](#videolink)[]|Include all link objects even if they are unavailable to the user because he is not authorized or not premium. For such cases set [VideoLink](#videolink).url to null.|
 |alpha_mask|[Url](#url--string)|Optional<br>Url to external alpha mask video. External mask should be enabled in [TransparencyInfo](#transparencyinfo).|
-|script_id|string|Optional<br>Id of the script to use.|
+|script_info|[VideoScriptInfo](#videoscriptinfo)|Optional.|
 
 >Example
 >
@@ -784,9 +784,20 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 |g|long|Green [0..255]|
 |b|long|Blue [0..255]|
 
->Exanple
+>Example
 >
 >     { "r": 18, "g": 218, "b": 0 }
+
+
+### VideoScriptInfo
+|Name|Type|Description|
+|-|-|-|
+|id|string|Unique script id.|
+|generation_source|int|Script generation source, where:<br>0 - Manual,<br>1 - AI.|
+
+>Example
+>
+>     { "id": "1239572", "generation_source": 1 }
 
 ### ActorListView
 |Name|Type|Description|
