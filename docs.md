@@ -104,7 +104,7 @@ Requests to track user activity.
 
 ### Event
 - Authentication: Required
-- Route: POST /event
+- Route: PUT /event
 - Request: [EventRequest](#eventrequest)
 - Response: [Rsp](#rsp)
 
