@@ -77,7 +77,7 @@ Use API status code 3 (AUTHENTICATION_FAILED) for invalid credentials or other i
 Put a helpful message into ``Rsp.status.message`` field.
 
 ### GetCode
-- Route: POST /auth/code
+- Route: GET /auth/code
 - Response: [Rsp](#rsptype)&lt;[AuthenticationCode](#authenticationcode)&gt;
 
 This request will be used for sent when Login window will open if ``auth_by_code`` is enabled in the [Configuration](#configuration) object.
