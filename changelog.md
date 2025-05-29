@@ -1,3 +1,12 @@
+## 1.9.0 Added authorization via code feature
+This is not breaking change.
+
+- Added new requests for Log-in with code: [GetCode](docs.md#getcode) and [SignInCode](docs.md#signincode)
+- Added new API status codes
+- Added [AuthenticationCode](docs.md#authenticationcode) object
+
+This feature will be added in Play'a 3.0.5
+
 ## 1.8.0 New information about the VideoScript
 This is breaking change.
 

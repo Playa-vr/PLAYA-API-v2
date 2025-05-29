@@ -9,6 +9,9 @@
         public const int OK = 1;
         public const int ERROR = 2;
         public const int AUTHORIZATION_FAILED = 3;
+        public const int ACCOUNT_IS_EXPIRED = 4;
+        public const int USER_IS_INACTIVE = 5;
+        public const int USER_IS_BLOCKED = 6;
 
         public const int UNAUTHORIZED = 401;
         public const int FORBIDDEN = 403;

@@ -51,5 +51,11 @@ namespace PlayaApiV2.Model
 
         [JsonProperty("deals")]
         private bool? _deals { get; set; }
+
+        [JsonIgnore]
+        public bool AuthByCode { get => _authByCode.GetValueOrDefault(); set => _authByCode = value; }
+
+        [JsonProperty("auth_by_code")]
+        private bool? _authByCode { get; set; }
     }
 }

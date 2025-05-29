@@ -51,6 +51,7 @@ namespace PlayaApiV2.Controllers
                 Auth = false,
                 NSFW = false,
                 Deals = false,
+                AuthByCode = false,
 
                 Theme = 0,
             };

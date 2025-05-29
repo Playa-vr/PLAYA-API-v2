@@ -73,7 +73,23 @@ Authentification for website users, exchanging credentials for JWT access and re
 - Request: [SignInPasswordRequest](#signinpasswordrequest)
 - Response: [Rsp](#rsptype)&lt;[Token](#token)&gt;
 
-Use API status code 3 AUTHENTICATION_FAILED for invalid credentials or other problems (banned, deleted, too many sign in attempts).
+Use API status code 3 (AUTHENTICATION_FAILED) for invalid credentials or other issues other than 4 (ACCOUNT_IS_EXPIRED) or 5 (USER_IS_BLOCKED).
+Put a helpful message into ``Rsp.status.message`` field.
+
+### GetCode
+- Route: POST /auth/code
+- Response: [Rsp](#rsptype)&lt;[AuthenticationCode](#authenticationcode)&gt;
+
+This request will be used for sent when Login window will open if ``auth_by_code`` is enabled in the [Configuration](#configuration) object.
+The received [AuthenticationCode](#authenticationcode).Code will be shown to the user in the Login window. This code will be offered to the user for enter on your site using the {SiteBaseUrl}/playalogin route.
+[AuthenticationCode](#authenticationcode).Token will be sent via [SignInCode](#SignInCode) request every 3 seconds to verify authorization.
+
+### SignInCode
+- Route: POST /auth/sign-in-code
+- Request: [SignInCodeRequest](#signincoderequest)
+- Response: [Rsp](#rsptype)&lt;[Token](#token)&gt;
+
+Use API status code 3 (AUTHENTICATION_FAILED) to get invalid credentials or other issues other than 4 (ACCOUNT_IS_EXPIRED) or 5 (USER_IS_BLOCKED).
 Put a helpful message into ``Rsp.status.message`` field.
 
 ### RefreshToken
@@ -277,6 +293,8 @@ Version string according to [Semantic Versioning 2.0.0](https://semver.org/)
 |1|OK||
 |2|ERROR|Suitable for manually caught exceptions, failed checks or data errors when no specific status code is defined.<br>Message should contain some debug info about the error so client developer could find out what happened on his own (not always possible, in such case message will be forwarded to server developers for clarification).|
 |3|AUTHENTICATION_FAILED|Used when SignIn requests failed because of invalid credentials.|
+|4|ACCOUNT_IS_EXPIRED|Used when SignIn requests failed because of user account subscription plan is expired.|
+|5|USER_IS_BLOCKED|Used when SignIn requests failed because of user account is blocked at the site.|
 |401|UNAUTHORIZED|For [RefreshToken](#refreshtoken) this means the session is expired and SignIn needed.<br>For other requests this means the access token is expired and [RefreshToken](#refreshtoken) needed.|
 |403|FORBIDDEN|Request is authenticated, but does not have required permissions.<br>Example: user with free account requesting premium content.|
 |404|NOT FOUND|Suitable for point read requests when requested content (videos, actors, studios) not found.<br>Do **not** use when whole route not found and server could not process request. Use HTTP 404 instead.|
@@ -300,7 +318,7 @@ Response
 ### Rsp&lt;Type&gt;
 |Name|Type|Description|
 |-|-|-|
-|status|[Status](#status)|Always included]
+|status|[Status](#status)|Always included|
 |data|Type|Included only when succeeded. May be missing in case of errors.<br>App won't process data for error responses. But json parsers do.<br>Do **not** pass wrong data in error responses because it could break the parser.<br>Example of **invalid** response: expected response type is Rsp<long>, but actual response is Rsp<string> (use Rsp without data for errors).|
 
 >Successful Rsp<long>.
@@ -359,6 +377,32 @@ Response
 >     {
 >         "login": "user@mail.domain",
 >         "password": "p@$$w0rd"
+>     }
+
+### AuthenticationCode
+|Name|Type|Description|
+|-|-|-|
+|code|string|The authorization code that will be shown to the user in the Login window.<br>We recommend that you do not exceed its length by more than 12 characters.|
+|token|string|Authorization token|
+|expires_at|[Timestamp](#timestamp--long)|Token expiration date|
+
+>Example
+>
+>     {
+>         "code": "2FS6",
+>         "token": "eyJhbGciOiJIUzI1NiJ9.e30.4E_Bsx-pJi3kOW9wVXN8CgbATwP09D9V5gxh9-9zSZ0",
+>         "expires_at": "1675264660",
+>     }
+
+### SignInCodeRequest
+|Name|Type|Description|
+|-|-|-|
+|token|string|Token for sign in. For more information see [SignInCode](#signincode)|
+
+>Example
+>
+>     {
+>         "token": "jafjajhfastf8aft861523"
 >     }
 
 ### RefreshTokenRequest
@@ -454,6 +498,7 @@ Event when user downloads video.
 |site_name|string||
 |site_logo|[Url](#url--string)|Recommended: 256x256 pixels with transparent background|
 |auth|bool?|Is [authentication](#authentication) and [user](#user) API supported. Default: true|
+|auth_by_code|bool?|Is [authentication](#authentication) and [SignInCode](#signincode) API supported. This field will be ignored if ``auth`` field is false<br>Default: false.|
 |actors|bool|Is [actors](#getactors) supported|
 |categories|bool|Is [categories](#getcategories) supported|
 |categories_groups|bool|Is [categories groups](#getcategoriesgroups) supported|
