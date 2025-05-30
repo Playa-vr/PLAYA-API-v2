@@ -1,3 +1,8 @@
+## 1.9.1 Added video status for list view
+This is not breaking change.
+
+- Added new status field at [VideoListView](docs.md#videolistview)
+
 ## 1.9.0 Added authorization via code feature
 This is not breaking change.
 

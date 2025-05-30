@@ -546,6 +546,7 @@ Event when user downloads video.
 |id|string||
 |title|string|Displayed to user.|
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
+|status|string|The video status that will be displayed on the video card to the right of the title. It may be empty.|
 |preview_image|[Url](#url--string)|Preview image.|
 |release_date|[Timestamp](#timestamp--long)||
 |details|[VideoListView.Details](#videolistviewdetails)[]|Trailer and Full video details. Both are optional.|
