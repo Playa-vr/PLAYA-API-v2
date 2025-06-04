@@ -1,3 +1,8 @@
+## 1.9.2 Added new field to [VideoListView](docs.md#videolistview)
+This is not breaking change.
+
+- Added field at [VideoListView](docs.md#videolistview) to determine the presence of scripts in the video, before receiving details.
+
 ## 1.9.1 Added video status for list view
 This is not breaking change.
 

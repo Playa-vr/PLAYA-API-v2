@@ -548,6 +548,7 @@ Event when user downloads video.
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
 |status|string|The video status that will be displayed on the video card to the right of the title. It may be empty.|
 |preview_image|[Url](#url--string)|Preview image.|
+|has_scripts|bool|Shows whether the video has scripts. The value must be equal to the expression OR from each detail to the video.<br>Default value is false|
 |release_date|[Timestamp](#timestamp--long)||
 |details|[VideoListView.Details](#videolistviewdetails)[]|Trailer and Full video details. Both are optional.|
 
@@ -559,6 +560,7 @@ Event when user downloads video.
 >         "subtitle": "Video Subtitle",
 >         "preview_image": "https://www.sample-videos.com/img/Sample-jpg-image-100kb.jpg",
 >         "release_date": "1675264660",
+>         "has_scripts": false,
 >         "details": [ ... ]
 >     }
 

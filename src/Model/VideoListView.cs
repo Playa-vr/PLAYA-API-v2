@@ -18,6 +18,9 @@ namespace PlayaApiV2.Model
         [JsonProperty("preview_image")]
         public string Preview { get; set; }
 
+        [JsonProperty("has_scripts")]
+        public bool HasScripts { get; set; }
+
         [JsonProperty("release_date")]
         public Timestamp? ReleaseDate { get; set; }
 
