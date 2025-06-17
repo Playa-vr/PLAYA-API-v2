@@ -546,7 +546,7 @@ Event when user downloads video.
 |id|string||
 |title|string|Displayed to user.|
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
-|status|string|The video status that will be displayed on the video card to the right of the title. It may be empty.|
+|status|string|Optional. The video status that will be displayed on the video card to the right of the title. If the field is not empty and has a value, then the status bar will be displayed. Otherwise it won't be displayed.|
 |preview_image|[Url](#url--string)|Preview image.|
 |has_scripts|bool|Shows whether the video has scripts. The value must be equal to the expression OR from each detail to the video.<br>Default value is false|
 |release_date|[Timestamp](#timestamp--long)||
@@ -582,7 +582,7 @@ Event when user downloads video.
 |id|string||
 |title|string|Displayed to user.|
 |subtitle|string|Displayed under title. Suggestions: fill with studio or actors or leave empty.|
-|status|string|The video status that will be displayed on the video card to the right of the title. It may be empty.|
+|status|string|Optional. The video status that will be displayed on the video card to the right of the title. If the field is not empty and has a value, then the status bar will be displayed. Otherwise it won't be displayed.|
 |description|string||
 |preview_image|[Url](#url--string)|Preview image.|
 |release_date|[Timestamp](#timestamp--long)||
