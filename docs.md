@@ -432,6 +432,23 @@ Response
 |-|-|-|
 |event_type|string|Event id.|
 
+#### Video Stream Start
+Event when user opens video
+
+|Name|Type|Description|
+|-|-|-|
+|event_type|string|Value: "videoStreamStart"|
+|video_id|string|Video id string from [VideoView](#videoview).id|
+|video_quality|string|Quality name string from [VideoLink](#videolink).quality_name|
+
+>Example of Video Stream Start event
+>
+>     {
+>          "event_type" : "videoStreamStart",
+>          "video_id" : "891998",
+>          "video_quality" : "4K"
+>     }
+
 #### Video Stream End
 Event when user closes video. Only sent for durations above 30 seconds.
 
@@ -456,14 +473,14 @@ Event when user downloads video.
 
 |Name|Type|Description|
 |-|-|-|
-|event_type|string|Value: "videoStreamEnd"|
+|event_type|string|Value: "videoDownloaded"|
 |video_id|string|Video id string from [VideoView](#videoview).id|
 |video_quality|string|Quality name string from [VideoLink](#videolink).quality_name|
 
 >Example of Video Stream End event
 >
 >     {
->          "event_type" : "videoStreamEnd",
+>          "event_type" : "videoDownloaded",
 >          "video_id" : "891998",
 >          "video_quality" : "4K"
 >     }
