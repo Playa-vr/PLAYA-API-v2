@@ -524,6 +524,7 @@ Event when user downloads video.
 |masks|bool|Is [transparency](#transparencyinfo) supported|
 |analytics|bool|Is [analytics](#analytics) supported|
 |theme|long?|Visual theme used for the site.|
+|ar|bool?|If this parameter is set to true, then the user's ability to change the TransparencyMode will be disabled. Default: false|
 |nsfw|bool?|Show a warning about NSFW content when users first access a website. Default: true|
 
 >Example
@@ -535,7 +536,8 @@ Event when user downloads video.
 >         "categories": true,
 >         "studios": true,
 >         "scripts": true,
->         "nsfw": false
+>         "nsfw": false,
+>         "ar": false
 >     }
 
 ### Page&lt;T&gt;

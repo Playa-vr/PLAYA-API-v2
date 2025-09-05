@@ -1,3 +1,8 @@
+## 1.9.3 Added new field to [VideoListView](docs.md#videolistview)
+This is not breaking change.
+
+- Added field at [Configuration](docs.md#configuration) to determine the site on AR.
+
 ## 1.9.2 Added new field to [VideoListView](docs.md#videolistview)
 This is not breaking change.
 
