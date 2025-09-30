@@ -18,6 +18,9 @@ namespace PlayaApiV2.Model
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("status")]
+        public string Status { get; set; }
+
         [JsonProperty("preview_image")]
         public string Preview { get; set; }
 

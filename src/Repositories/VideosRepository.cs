@@ -13,6 +13,11 @@ namespace PlayaApiV2.Repositories
     // Todo: implement actors and studios
     public class VideosRepository
     {
+        public static class VideoStatuses
+        {
+            public const string Published = nameof(Published);
+        }
+
         private readonly Dictionary<string, VideoView> _videos;
 
         public VideosRepository()
@@ -25,6 +30,7 @@ namespace PlayaApiV2.Repositories
                     Title = "Video Title",
                     Subtitle = "Video Subtitle",
                     Description = "Video Description",
+                    Status = VideoStatuses.Published,
                     Preview = "https://www.sample-videos.com/img/Sample-jpg-image-100kb.jpg",
                     ReleaseDate = Timestamp.From(new DateTime(2024, 11, 21)),
                     Categories = new List<VideoView.CategoryRef>
@@ -98,6 +104,10 @@ namespace PlayaApiV2.Repositories
                 videos = videos.Where(v => v.Title.Contains(query.SearchTitle, StringComparison.OrdinalIgnoreCase));
             if (!query.ExcludedCategories.IsNullOrEmpty())
                 videos = videos.Where(e => !query.ExcludedCategories.Overlaps(e.Categories.OrEmpty().Select(c => c.Id)));
+            if (!query.ExcludedStatuses.IsNullOrEmpty())
+                videos = videos.Where(e => !query.ExcludedStatuses.Contains(e.Status, StringComparer.OrdinalIgnoreCase));
+            if (!query.IncludedStatuses.IsNullOrEmpty())
+                videos = videos.Where(e => query.IncludedStatuses.Contains(e.Status, StringComparer.OrdinalIgnoreCase));
             if (!query.IncludedCategories.IsNullOrEmpty())
                 videos = videos.Where(e => query.IncludedCategories.IsSubsetOf(e.Categories.OrEmpty().Select(c => c.Id)));
             if (query.SortOrder == SortOrders.Title)
@@ -109,14 +119,15 @@ namespace PlayaApiV2.Repositories
             if (query.SortOrder == SortOrders.Duration)
                 videos = OrderBy(videos, e => e.Details?.FirstOrDefault()?.DurationSeconds.GetValueOrDefault() ?? 0, query.SortDirection);
 
-            var videoViews = videos.Select(e => new VideoListView
+            var videoViews = videos.Select(v => new VideoListView
             {
-                Id = e.Id,
-                Title = e.Title,
-                Subtitle = e.Subtitle,
-                Preview = e.Preview,
-                ReleaseDate = e.ReleaseDate,
-                Details = e.Details.Select(d => new VideoListView.VideoDetails
+                Id = v.Id,
+                Title = v.Title,
+                Subtitle = v.Subtitle,
+                Status = v.Status,
+                Preview = v.Preview,
+                ReleaseDate = v.ReleaseDate,
+                Details = v.Details.Select(d => new VideoListView.VideoDetails
                 {
                     Type = d.Type,
                     DurationSeconds = d.DurationSeconds,
@@ -143,6 +154,18 @@ namespace PlayaApiV2.Repositories
                 .Distinct()
                 .OrderBy(c => c.Title, NaturalComparer.Default)
                 .Select(c => new CategoryListView { Id = c.Id, Title = c.Title, })
+                .ToList();
+        }
+
+        public async Task<List<VideoStatus>> GetVideoStatusesAsync()
+        {
+            IEnumerable<VideoView> videos = _videos.Values;
+
+            return videos
+                .Select(v => v.Status)
+                .Distinct()
+                .OrderBy(v => v, NaturalComparer.Default)
+                .Select(v => new VideoStatus { Id = v.ToLower(), Title = v, })
                 .ToList();
         }
 
@@ -180,8 +203,21 @@ namespace PlayaApiV2.Repositories
         /// </summary>
         public HashSet<string> ExcludedCategories { get; } = new HashSet<string>();
 
+        /// <summary>
+        /// All
+        /// </summary>
+        public HashSet<string> IncludedStatuses { get; } = new HashSet<string>();
+
+        /// <summary>
+        /// None
+        /// </summary>
+        public HashSet<string> ExcludedStatuses { get; } = new HashSet<string>();
+
         public void AddIncludedCategories(IEnumerable<string> categories) => AddRange(categories, IncludedCategories);
         public void AddExcludedCategories(IEnumerable<string> categories) => AddRange(categories, ExcludedCategories);
+
+        public void AddIncludedStatuses(IEnumerable<string> statuses) => AddRange(statuses, IncludedStatuses);
+        public void AddExcludedStatuses(IEnumerable<string> statuses) => AddRange(statuses, ExcludedStatuses);
 
         private void AddRange<T>(IEnumerable<T> from, HashSet<T> to)
         {

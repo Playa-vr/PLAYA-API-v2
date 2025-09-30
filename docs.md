@@ -36,6 +36,9 @@
     - [GetVideos](#getvideos)
     - [GetActors](#getactors) (if ``actors`` enabled in [Configuration](#configuration-1))
     - [GetStudios](#getstudios) (if ``studios`` enabled in [Configuration](#configuration-1))
+1. When the user's authorization status changes, the app will execute requests to retrieve next data:
+    - [GetVideos](#getvideos) (if current page is Videos)
+    - [GetVideoStatuses](#getvideostatuses) (if version greater or equal 1.10)
 
 # Requests
 
@@ -165,13 +168,19 @@ Requets for retriveing videos and other content.
     - [studio &lt;string&gt;]
         - Videos with this studio id.
     - [actor &lt;string&gt;]
-        - Videos with this actor id 
+        - Videos with this actor id
     - [included-categories &lt;string&gt;]
         - Comma separated list of categories ids.
         - Videos that have ALL categories in included-categories list.
     - [excluded-categories &lt;string&gt;]
         - Comma separated list of categories ids.
         - Videos that does NOT have ANY categories from excluded-categories list.
+    - [included-statuses &lt;string&gt;]
+        - Comma separated list of statuses ids.
+        - Videos that have ANY status in included-statuses list.
+    - [excluded-statuses &lt;string&gt;]
+        - Comma separated list of statuses ids.
+        - Videos that does NOT have ANY status from excluded-statuses list.
 - Response: [Rsp](#rsptype)&lt;[Page](#paget)&lt;[VideoListView](#videolistview)&gt;&gt;
 
 ### GetVideoDetails
@@ -216,6 +225,10 @@ Requets for retriveing videos and other content.
 ### GetCategoriesGroups
 - Route: GET /categories-groups;
 - Response: [Rsp](#rsptype)&lt;[CategoriesGroup](#categoriesgroup)[]&gt;
+
+### GetVideoStatuses
+- Route: GET /video-statuses;
+- Response: [Rsp](#rsptype)&lt;[VideoStatus](#videostatus)[]&gt;
 
 # Schema
 - Fields with null values can be omitted from JSON
@@ -973,3 +986,16 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 >Example
 >
 >     { "id": "top", "title": "Top", "items": [ ... ] }
+
+### VideoStatus
+It is used to filter the list of videos. The PLAY'A app will display a list of the received from the [GetVideoStatuses](#getvideostatuses) request for filtering if it contains MORE THAN ONE status.
+Most often, these statuses are displayed in the video and filtered only for authorized users with the roles "admin" and "moderator".
+
+|Name|Type|Description|
+|-|-|-|
+|id|string|
+|title|string|Displayed to user.|
+
+>Example
+>
+>     { "id": "published-", "title": "Published" }

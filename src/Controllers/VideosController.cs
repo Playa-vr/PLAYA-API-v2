@@ -66,6 +66,8 @@ namespace PlayaApiV2.Controllers
             [FromQuery(Name = "actor")] string actiorId,
             [FromQuery(Name = "included-categories")] string includedCategories,
             [FromQuery(Name = "excluded-categories")] string excludedCategories,
+            [FromQuery(Name = "included-statuses")] string includedStatuses,
+            [FromQuery(Name = "excluded-statuses")] string excludedStatuses,
             [FromQuery(Name = "order")] string sortOrder,
             [FromQuery(Name = "direction")] string sortDirection
             )
@@ -84,6 +86,9 @@ namespace PlayaApiV2.Controllers
             query.AddIncludedCategories(includedCategories?.Split(',', StringSplitOptions.RemoveEmptyEntries));
             query.AddExcludedCategories(excludedCategories?.Split(',', StringSplitOptions.RemoveEmptyEntries));
 
+            query.AddIncludedStatuses(includedStatuses?.Split(',', StringSplitOptions.RemoveEmptyEntries));
+            query.AddExcludedStatuses(excludedStatuses?.Split(',', StringSplitOptions.RemoveEmptyEntries));
+
             var videos = await _repository.GetVideosAsync(query);
             return videos;
         }
@@ -99,6 +104,13 @@ namespace PlayaApiV2.Controllers
         public async Task<Rsp<List<CategoryListView>>> GetCategories()
         {
             var categories = await _repository.GetCategoriesAsync();
+            return categories;
+        }
+
+        [HttpGet("video-statuses")]
+        public async Task<Rsp<List<VideoStatus>>> GetVideoStatuses()
+        {
+            var categories = await _repository.GetVideoStatusesAsync();
             return categories;
         }
 

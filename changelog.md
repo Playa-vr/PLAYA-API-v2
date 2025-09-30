@@ -1,3 +1,9 @@
+## 1.10.0 Added filtering by video status
+This is not breaking change. Play'a will send new requests only if your API version will be as 1.10.0
+
+- Added new request [GetVideoStatuses](docs.md#getvideostatuses) request for get available statuses for filtering
+- Added new [VideoStatus](docs.md#videostatus) model
+
 ## 1.9.3 Added new field to [VideoListView](docs.md#videolistview)
 This is not breaking change.
 
