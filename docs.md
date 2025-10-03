@@ -929,7 +929,7 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 ### ActorView.Property
 |Name|Type|Description|
 |-|-|-|
-|id|string|
+|name|string|
 |value|string||
 
 >Example
