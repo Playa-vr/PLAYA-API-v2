@@ -3,6 +3,7 @@ This is not breaking change. Play'a will send new requests only if your API vers
 
 - Added new request [GetVideoStatuses](docs.md#getvideostatuses) request for get available statuses for filtering
 - Added new [VideoStatus](docs.md#videostatus) model
+- Added new query parameters for [GetVideos](docs.md#getvideos) route
 
 ## 1.9.3 Added new field to [VideoListView](docs.md#videolistview)
 This is not breaking change.
