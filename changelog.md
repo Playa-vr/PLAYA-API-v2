@@ -1,3 +1,8 @@
+## 1.10.1 Added User Id field
+This is not breaking change. 
+
+- Added user id field for [UserProfile](docs.md#userprofile)
+
 ## 1.10.0 Added filtering by video status
 This is not breaking change. Play'a will send new requests only if your API version will be as 1.10.0
 

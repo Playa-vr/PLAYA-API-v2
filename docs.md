@@ -501,12 +501,14 @@ Event when user downloads video.
 ### UserProfile
 |Name|Type|Description|
 |-|-|-|
+|id|string|Unique user id|
 |display_name|string|Display name. Could be email, login or nickname.|
 |role|string||
 
 >Example
 >
 >     {
+>         "id": "258",
 >         "display_name": "Bill Gates",
 >         "role": "premium"
 >     }
