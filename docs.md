@@ -288,7 +288,7 @@ Version string according to [Semantic Versioning 2.0.0](https://semver.org/)
 ### Status
 |Name|Type|Description|
 |-|-|-|
-|code|long|Response statuts.<br>Default successful responses have API status 2.<br>Some requests may define other successful status codes.|
+|code|long|Response statuts.<br>Default successful responses have API status 1.<br>Some requests may define other successful status codes.|
 |message|string|Optional debug text with error description.<br>Not suited for displaying to users or machine parsing.|
 
 > Success
