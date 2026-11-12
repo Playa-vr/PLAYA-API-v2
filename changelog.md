@@ -1,3 +1,22 @@
+## 1.11.0 Scripts by direct link
+Supported by Play'a 3.3.1 and above.
+
+ToysAggregator is no longer used. If server version is 1.11.0 or greater, Play'a 3.3.1+ does not execute [GetScriptsInfo](docs.md#getscriptsinfo), ignores [VideoScriptInfo](docs.md#videoscriptinfo).id and downloads scripts by [VideoScriptInfo](docs.md#videoscriptinfo).link.
+
+This is not breaking change for servers below 1.11.0. Raise the server version to 1.11.0 only when every [VideoScriptInfo](docs.md#videoscriptinfo) has ``link`` (or ``unavailable_reason``). Keep ``id`` and [GetScriptsInfo](docs.md#getscriptsinfo) while you need to support Play'a below 3.3.1.
+
+- Added ``link`` and ``unavailable_reason`` fields to [VideoScriptInfo](docs.md#videoscriptinfo)
+- [GetScriptsInfo](docs.md#getscriptsinfo), [ScriptsInfo](docs.md#scriptsinfo) and [VideoScriptInfo](docs.md#videoscriptinfo).id are used only with server version below 1.11.0
+- [GetVideoDetails](docs.md#getvideodetails) is executed again to get a new script link when the previous one stopped working
+
+## 1.10.2 Filter tags
+This is not breaking change. Play'a will send new requests only if ``filter_tags`` is enabled in [Configuration](docs.md#configuration-1).
+
+- Added ``filter_tags`` field to [Configuration](docs.md#configuration-1)
+- Added new request [GetFilterTags](docs.md#getfiltertags)
+- Added new [FilterTags](docs.md#filtertags) and [FilterTag](docs.md#filtertag) models
+- Added new ``filter-tag`` query parameter for [GetVideos](docs.md#getvideos)
+
 ## 1.10.1 Added User Id field
 This is not breaking change. 
 

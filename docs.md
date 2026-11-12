@@ -33,6 +33,7 @@
     - [GetCategories](#getcategories) (if ``categories`` enabled in [Configuration](#configuration-1))
     - [GetCategoriesGroups](#getcategoriesgroups) (if ``categories_groups`` enabled in [Configuration](#configuration-1))
 1. App execute requests to retrieve current page content (default page is Videos):
+    - [GetFilterTags](#getfiltertags) (if ``filter_tags`` enabled in [Configuration](#configuration-1))
     - [GetVideos](#getvideos)
     - [GetActors](#getactors) (if ``actors`` enabled in [Configuration](#configuration-1))
     - [GetStudios](#getstudios) (if ``studios`` enabled in [Configuration](#configuration-1))
@@ -118,6 +119,12 @@ Requests related to current user.
 - Route: GET /user/scripts-info
 - Response: [Rsp](#rsptype)&lt;[ScriptsInfo](#scriptsinfo)&gt;
 
+>[!IMPORTANT]
+>Not used since API version 1.11.0 (Play'a 3.3.1 and above).
+>
+>If server version is 1.11.0 or greater, the app does not execute this request and does not use [VideoScriptInfo](#videoscriptinfo).id: scripts are downloaded by [VideoScriptInfo](#videoscriptinfo).link.
+>Keep this request (and ``id``) only to support Play'a versions below 3.3.1.
+
 ## Analytics
 Requests to track user activity.
 
@@ -181,11 +188,17 @@ Requets for retriveing videos and other content.
     - [excluded-statuses &lt;string&gt;]
         - Comma separated list of statuses ids.
         - Videos that does NOT have ANY status from excluded-statuses list.
+    - [filter-tag &lt;string&gt;]
+        - [FilterTag](#filtertag).id selected by the user (see [GetFilterTags](#getfiltertags)).
+        - Sent only if ``filter_tags`` enabled in [Configuration](#configuration-1).
+        - Never sent together with ``included-categories`` and ``excluded-categories``. Other parameters (``title``, statuses, sorting, pagination) are sent as usual.
 - Response: [Rsp](#rsptype)&lt;[Page](#paget)&lt;[VideoListView](#videolistview)&gt;&gt;
 
 ### GetVideoDetails
 - Route: GET /video/&lt;id&gt;
 - Response: [Rsp](#rsptype)&lt;[VideoView](#videoview)&gt;
+
+Since API version 1.11.0 the app also uses this request to get a new [VideoScriptInfo](#videoscriptinfo).link when the previous one stopped working (eg: signed link expired).
 
 ### GetActors
 - Route: GET /actors
@@ -229,6 +242,18 @@ Requets for retriveing videos and other content.
 ### GetVideoStatuses
 - Route: GET /video-statuses;
 - Response: [Rsp](#rsptype)&lt;[VideoStatus](#videostatus)[]&gt;
+
+### GetFilterTags
+- Route: GET /filter-tags
+- Response: [Rsp](#rsptype)&lt;[FilterTags](#filtertags)&gt;
+
+Quick filters for the list of videos. Requested only if ``filter_tags`` is enabled in [Configuration](#configuration-1). App may cache the response while the site is open.
+
+- When the user selects a tag, the app executes [GetVideos](#getvideos) with ``filter-tag=<id>``.
+- Tag with ``nestedTags`` is a group: the user selects one of its nested tags and the app sends the id of that nested tag. Id of the group itself is never sent.
+- Tag with id ``"videos"`` is the default one: if it is present, the app selects it automatically when the list of videos is opened, so the first [GetVideos](#getvideos) request is sent with ``filter-tag=videos``.
+- The tag can be reset in the app (eg: when the user selects categories): next [GetVideos](#getvideos) requests are sent without ``filter-tag``.
+- Only [FilterTags](#filtertags).videos is used by the app now.
 
 # Schema
 - Fields with null values can be omitted from JSON
@@ -514,6 +539,8 @@ Event when user downloads video.
 >     }
 
 ### ScriptsInfo
+Used only with API version below 1.11.0. See [GetScriptsInfo](#getscriptsinfo).
+
 |Name|Type|Description|
 |-|-|-|
 |token|[JWT](#jwt--string)|Required to use scripts.|
@@ -535,7 +562,8 @@ Event when user downloads video.
 |categories|bool|Is [categories](#getcategories) supported|
 |categories_groups|bool|Is [categories groups](#getcategoriesgroups) supported|
 |studios|bool|Is [studios](#getstudios) supported|
-|scripts|bool|Is [scripts](#getscriptsinfo) supported|
+|scripts|bool|Is scripts supported. See [VideoScriptInfo](#videoscriptinfo) (and [GetScriptsInfo](#getscriptsinfo) for API version below 1.11.0)|
+|filter_tags|bool|Is [filter tags](#getfiltertags) supported. Default: false|
 |masks|bool|Is [transparency](#transparencyinfo) supported|
 |analytics|bool|Is [analytics](#analytics) supported|
 |theme|long?|Visual theme used for the site.|
@@ -551,6 +579,7 @@ Event when user downloads video.
 >         "categories": true,
 >         "studios": true,
 >         "scripts": true,
+>         "filter_tags": true,
 >         "nsfw": false,
 >         "ar": false
 >     }
@@ -875,10 +904,26 @@ It is recommended to use exact data from preset files generatedh by Playa applic
 ### VideoScriptInfo
 |Name|Type|Description|
 |-|-|-|
-|id|string|Unique script id.|
+|id|string|Unique script id.<br>Used only with API version below 1.11.0 (together with [GetScriptsInfo](#getscriptsinfo)). Ignored by Play'a 3.3.1 and above if server version is 1.11.0 or greater.|
+|link|[Url](#url--string)|Since 1.11.0. Direct link to the script file (funscript JSON).<br>If user is not allowed to use the script - use null.|
+|unavailable_reason|string|Since 1.11.0. Why ``link`` is missing. Example values: ``"login"``, ``"premium"`` (same as [VideoLink](#videolink).unavailable_reason).<br>If ``link`` is present - use null.|
 |generation_source|int|Script generation source, where:<br>0 - Manual,<br>1 - AI.|
 
->Example
+Script by ``link`` (API version 1.11.0+, Play'a 3.3.1+):
+- App downloads the file with a plain GET request without ``Authorization`` header: the link must work on its own (public or signed url).
+- Response body is a funscript JSON with non-empty ``actions`` array.
+- Link may expire. If the download fails, the app executes [GetVideoDetails](#getvideodetails) again and retries with the new link.
+- Scripts of downloaded videos are downloaded together with the video by the same link.
+
+>Example (API version 1.11.0+)
+>
+>     { "link": "https://cdn.example.com/scripts/1239572.funscript", "generation_source": 1 }
+
+>Unavailable script (API version 1.11.0+)
+>
+>     { "unavailable_reason": "premium", "generation_source": 1 }
+
+>Example (API version below 1.11.0)
 >
 >     { "id": "1239572", "generation_source": 1 }
 
@@ -1001,3 +1046,44 @@ Most often, these statuses are displayed in the video and filtered only for auth
 >Example
 >
 >     { "id": "published-", "title": "Published" }
+
+### FilterTags
+Response of [GetFilterTags](#getfiltertags).
+
+>[!NOTE]
+>Fields of [FilterTag](#filtertag) use camelCase naming (``displayName``, ``nestedTags``), unlike other objects.
+
+|Name|Type|Description|
+|-|-|-|
+|videos|[FilterTag](#filtertag)[]|Tags for the list of videos.|
+|actors|[FilterTag](#filtertag)[]|Optional. Reserved, not used by the app yet.|
+|studios|[FilterTag](#filtertag)[]|Optional. Reserved, not used by the app yet.|
+
+>Example
+>
+>     {
+>         "videos": [
+>             { "id": "videos", "displayName": "All videos" },
+>             {
+>                 "id": "trending",
+>                 "displayName": "Trending",
+>                 "nestedTags": [
+>                     { "id": "trending-today", "displayName": "Today" },
+>                     { "id": "trending-week", "displayName": "Week" },
+>                     { "id": "trending-month", "displayName": "Month" }
+>                 ]
+>             },
+>             { "id": "most-viewed", "displayName": "Most viewed" }
+>         ]
+>     }
+
+### FilterTag
+|Name|Type|Description|
+|-|-|-|
+|id|string|Value of ``filter-tag`` query parameter in [GetVideos](#getvideos).|
+|displayName|string|Displayed to user.|
+|nestedTags|[FilterTag](#filtertag)[]|Optional. Makes the tag a group (see [GetFilterTags](#getfiltertags)). One level of nesting: nested tags must not have their own ``nestedTags``.|
+
+>Example
+>
+>     { "id": "most-viewed", "displayName": "Most viewed" }
